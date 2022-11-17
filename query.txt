@@ -1,10 +1,24 @@
-SELECT DISTINCT ?treatmentLabel ?disLabel
+`SELECT DISTINCT ?treatmentLabel ?treatingLabel
 WHERE{ 
-  VALUES ?disease {wd:Q12135} #tells query to look at the entries which are inside of Q12135
-  ?type wdt:P279 ?disease ; #gives all the types
-        wdt:P2176 ?treatment .
-  ?treatment wdt:P2175 ?treating .
-  ?kind wdt:P279 ?treating .
-  ?dis wdt:P279 ?kind .
-  SERVICE wikibase:label {bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en"}
+VALUES ?disease {wd:Q12135} #tells query to look at the entries which are inside of Q12135
+?type wdt:P279 ?disease ; #gives all the types
+      wdt:P2176 ?treatment .
+?treatment wdt:P2175 ?treating .
+#   ?kind wdt:P279 ?treating .
+#   ?dis wdt:P279 ?kind .
+SERVICE wikibase:label {bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en"}
+}
+
+SELECT DISTINCT ?med ?medLabel ?typeLabel ?intLabel ?medfoLabel ?diseaseLabel WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+  {
+      VALUES ?medicine {wd:Q12140} 
+        ?med wdt:P279 ?medicine ;
+             wdt:P2175 wd:Q181923 ;
+             wdt:P769 ?int .
+        ?type wdt:P31 ?med .
+        ?int wdt:P2175 ?medfo .
+        ?medfo wdt:P31 wd:Q12135 .
+  }
+  
 }

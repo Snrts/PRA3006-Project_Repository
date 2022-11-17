@@ -6,10 +6,25 @@
         
     </head>
 <body>
-    <p id="results"></p>
+    <p id="results">Diseases</p>
+    <form>
+        <input type="text" placeholder="Search...">
+        <div></select><select id="diseases" title="diseases" multiple>
+
+        </select></div>
+        <input type="submit" value="submit">
+    </form>
     <script type="text/javascript" src="query.js"></script>
-    <script>
-        
+    <script type="text/javascript">
+        async function buttons(){
+        const dropdown = document.getElementById("diseases")
+        const disease = awaitdiseasesQuery()
+        for(var i = 0, l = disease.length; i < l; i++){
+           const condition = disease[i];
+            dropdown.disease.add( new Option(condition.value))
+        }
+        document.write(disease)
+    }
     </script>
 </body>
 </html>
