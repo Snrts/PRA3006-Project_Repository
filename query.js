@@ -8,20 +8,21 @@ class SPARQLQueryDispatcher {
       return fetch( fullUrl , { headers } ).then( body => body.json() );
   }
 }
-const endpointUrl = 'https://query.wikidata.org/sparql';
-const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
+// const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
 // Setting up an endpoint to the wikidata database 
 //_________________________________________________________________________________________________________________//
 async function runQuery(query) {
-  const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
+  const endpointUrl = 'https://query.wikidata.org/sparql';
+  let queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
   let response = await queryDispatcher.query(query);
-  var data = await Object.values(response)
-  return data
+  console.log(response)
+  return response
+  
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
 async function diseasesQuery() { //asynchronous function to fetch diseases
-  diseases = []
+  // diseases = []
   const query = `SELECT DISTINCT ?disease ?diseaseLabel ?typeLabel 
   WHERE {
     {
@@ -32,13 +33,15 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
   }` // Defines query
   try {
-    this.disease = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
-    // const disease = Object.entries(ill)
-    // document.getElementById("results").innerHTML = await disease.results
+    const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
+    const output = Object.entries(result)[1][1]
+    const need = Object.values(output)[0]
+    // console.table(need)
+    // console.log(need[1].disease)
+    document.getElementById("results").innerHTML = need[1].diseaseLabel.value
   } catch (error) {
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
   }
-document.getElementById("results").innerHTML = disease
 }
 diseasesQuery()
 // Query to fetch the mental diseases from the SPARQL endpoint of wikidata
