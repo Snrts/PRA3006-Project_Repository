@@ -1,6 +1,6 @@
 `SELECT DISTINCT ?treatmentLabel ?treatingLabel
 WHERE{ 
-VALUES ?disease {wd:Q12135} #tells query to look at the entries which are inside of Q12135
+VALUES ?disease {wd:Q12135} #tells query to look at the entries which are inside of Q12135 (mental)
 ?type wdt:P279 ?disease ; #gives all the types
       wdt:P2176 ?treatment .
 ?treatment wdt:P2175 ?treating .
@@ -22,3 +22,27 @@ SELECT DISTINCT ?med ?medLabel ?typeLabel ?intLabel ?medfoLabel ?diseaseLabel WH
   }
   
 }
+
+SELECT DISTINCT ?medicine ?medicineLabel ?typeLabel ?interactswithLabel ?treatsLabel WHERE {
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+  {
+      VALUES ?item {wd:Q12140} #selects all entries that are medicines
+        ?medicine wdt:P279 ?item ; #?medicine is a subclass of those entries
+             wdt:P2175 wd:Q181923 ; #which is selected only if the medical condition treated is Attention deficit Hyperactivity disorder
+             wdt:P769 ?interactswith . #Significant drug interactions of that medicine
+        ?type wdt:P31 ?medicine . #
+        ?interactswith wdt:P2175 ?treats . #? is the medical condition treated by the medicine that the drug interacts with 
+        ?treats wdt:P31 wd:Q12135 . #where ?treats is an instance of mental disorder
+  }
+}
+
+SELECT DISTINCT ?diseaseLabel WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+    {
+      SELECT DISTINCT ?disease 
+      WHERE {
+        ?disease p:P31 ?statement0.
+        ?statement0 (ps:P31/(wdt:P279*)) wd:Q12135.
+      }
+    }
+  }

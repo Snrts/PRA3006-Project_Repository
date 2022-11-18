@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@entitree/helper": "^0.7.0",
+    "sparql-http-client": "^2.4.1"
+  }
+}
