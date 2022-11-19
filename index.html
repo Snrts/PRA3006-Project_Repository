@@ -7,14 +7,26 @@
     </head>
 <body>
     <p>Diseases</p>
+    <div id="div"></div>
+    <ul>
+
+    </ul>
     <form method="GET">
-        <input type="text" placeholder="Search...">
+        <!-- <input 
+            type="text" 
+            id="searchbar" 
+            placeholder="Search..."> -->
         <select 
             name="inputbox" 
             id="dropdown" 
-            title="diseases">
+            title="diseases"
+            multiple>
         </select>
-        <input type="submit" value="submit" onClick="addChoice(this.form)">
+        <input title="reset" type="reset">
+        <!-- <input 
+            type="submit" 
+            value="submit" 
+            onClick="addChoice(this.form)"> -->
     </form>
     <script type="text/javascript" src="query.js"></script>
     <script type="text/javascript" src="submit.js"></script>

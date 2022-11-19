@@ -1,9 +1,9 @@
-// function addChoice(form) {
-//     const output = form.inputbox.value
-//     let choice = output.slice(31);
-//     alert("you chose " + choice);
-//     interactionQuery()
-// }
+function addChoice(form) {
+    const output = form.inputbox.value
+    const choice = output.slice(31);
+    console.log(choice)
+    alert("you chose " + choice);
+}
 
 // async function interactionQuery() {
 //     const query = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 

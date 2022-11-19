@@ -17,7 +17,6 @@ async function runQuery(query) {
   let response = await queryDispatcher.query(query);
   console.log(response)
   return response
-  
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
@@ -46,28 +45,63 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
   }
 }
 //_________________________________________________________________________________________________________________________________________//
-  async function interactionQuery() {
-    // console.log(selected)
-    // const queryint = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
-    // WHERE {
-    //   {
-    //       VALUES ?item {wd:Q12140} #selects all entries that are medicines
-    //         ?medicine wdt:P279 ?item ; #?medicine is a subclass of those entries
-    //              wdt:P2175 wd: #which is selected only if the medical condition treated is Attention deficit Hyperactivity disorder
-    //              wdt:P769 ?interactswith . #Significant drug interactions of that medicine
-    //         ?type wdt:P31 ?medicine . #Instances of that medication
-    //         ?interactswith wdt:P2175 ?treats . #? is the medical condition treated by the medicine that the drug interacts with 
-    //         ?treats wdt:P31 wd:Q12135 . #where ?treats is an instance of mental disorder
-    //   }
-    //   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
-    // }`  
-    
+  async function interactionQuery(input) {
+    const start = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
+WHERE {
+  {
+      VALUES ?item {wd:Q12140}
+        ?medicine wdt:P279 ?item ; 
+             wdt:P2175 wd:`
+const val = input
+const end = `; wdt:P769 ?interactswith . 
+?type wdt:P31 ?medicine . 
+?interactswith wdt:P2175 ?treats . 
+?treats wdt:P31 wd:Q12135 . 
+}
+SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+}`
+const queryint = start + val  + end
   try {
-      const result = await runQuery(queryint)
-      console.log(result)
+    const result = await runQuery(queryint)
+    const output = Object.entries(result)[1][1]
+    const need = Object.values(output)[0]
+
+    const medication = []
+    for (var i = 0, l = need.length; i < l; i++){
+      const condition = need[i];
+      medication.push(condition)
+    }
+    return medication
   } catch (error) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }
 }
+
+//________________________________________________________________________________________________________________________________________//
+//   async function interactionQuery() {
+//     const start = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
+// WHERE {
+//   {
+//       VALUES ?item {wd:Q12140}
+//         ?medicine wdt:P279 ?item ; 
+//              wdt:P2175 wd:`
+// const val = "Q181923"
+// const end = `; wdt:P769 ?interactswith . 
+// ?type wdt:P31 ?medicine . 
+// ?interactswith wdt:P2175 ?treats . 
+// ?treats wdt:P31 wd:Q12135 . 
+// }
+// SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+// }`
+// const queryint = start + val  + end
+//   try {
+//     const result = await runQuery(queryint)
+//     const output = Object.entries(result)[1][1]
+//     const need = Object.values(output)[0]
+//       console.table(need)
+//   } catch (error) {
+//       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+//     }
+// }
 // interactionQuery()
 //_________________________________________________________________________________________________________________//
