@@ -7,24 +7,14 @@
     </head>
 <body>
     <p id="results">Diseases</p>
-    <form>
-        <input type="text" placeholder="Search...">
-        <div></select><select id="diseases" title="diseases" multiple>
-
-        </select></div>
-        <input type="submit" value="submit">
+    <form method="GET">
+        <!-- <input type="text" placeholder="Search..."> -->
+        <select name="inputbox" id="dropdown" title="diseases">
+        </select>
+        <input type="submit" value="submit" onClick="addChoice(this.form)">
     </form>
     <script type="text/javascript" src="query.js"></script>
-    <!-- <script type="text/javascript">
-        async function buttons(){
-        const dropdown = document.getElementById("diseases")
-        const disease = awaitdiseasesQuery()
-        for(var i = 0, l = disease.length; i < l; i++){
-           const condition = disease[i];
-            dropdown.disease.add( new Option(condition.value))
-        }
-        document.write(disease)
-    }
-    </script> -->
+    <script type="text/javascript" src="submit.js"></script>
+    
 </body>
 </html>
