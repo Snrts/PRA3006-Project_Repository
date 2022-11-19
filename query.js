@@ -15,23 +15,25 @@ async function runQuery(query) {
   const endpointUrl = 'https://query.wikidata.org/sparql';
   let queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
   let response = await queryDispatcher.query(query);
-  console.log(response)
+  // console.table(response)
   return response
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
 async function diseasesQuery() { //asynchronous function to fetch diseases
-  const query = `SELECT DISTINCT ?disease ?diseaseLabel ?typeLabel 
+  const query = `SELECT DISTINCT ?disease ?diseaseLabel
   WHERE {
     {
-      VALUES ?item {wd:Q12135} #all entries of "mental disorder
-            ?type wdt:P279 ?item . #"categories" of mental disorders, subclasses of mental disorders 
-            ?disease wdt:P279 ?type . #the mental disorders which fall into that category
-    }
+      VALUES ?item {wd:Q112193867} #all entries of "mental disorder
+            ?disease wdt:P31 ?item ;
+                     wdt:P1995 wd:Q7867 ;
+                     wdt:P2176 ?treatment .
+      }
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
   }` // Defines query
   try {
     const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
+    
     const output = Object.entries(result)[1][1]
     const need = Object.values(output)[0]
     const diseases = []
@@ -45,30 +47,23 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
   }
 }
 //_________________________________________________________________________________________________________________________________________//
-  async function interactionQuery(input) {
-    const start = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
-WHERE {
-  {
-      VALUES ?item {wd:Q12140}
-        ?medicine wdt:P279 ?item ; 
-             wdt:P2175 wd:`
+  async function medicationQuery(input) {
+    const start = `SELECT DISTINCT ?medicine ?medicineLabel ?interactswithLabel ?treatsLabel 
+    WHERE {
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+      {
+          VALUES ?item {wd:`
 const val = input
-const end = `; wdt:P769 ?interactswith . 
-?type wdt:P31 ?medicine . 
-?interactswith wdt:P2175 ?treats . 
-?treats wdt:P31 wd:Q12135 . 
-}
-SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
-}`
+const end = `} 
+?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
+}}`
 const queryint = start + val  + end
   try {
     const result = await runQuery(queryint)
-    const output = Object.entries(result)[1][1]
-    const need = Object.values(output)[0]
-
+    const output = Object.values(Object.entries(result)[1][1])[0]
     const medication = []
-    for (var i = 0, l = need.length; i < l; i++){
-      const condition = need[i];
+    for (var i = 0, l = output.length; i < l; i++){
+      const condition = output[i];
       medication.push(condition)
     }
     return medication
@@ -78,30 +73,5 @@ const queryint = start + val  + end
 }
 
 //________________________________________________________________________________________________________________________________________//
-//   async function interactionQuery() {
-//     const start = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
-// WHERE {
-//   {
-//       VALUES ?item {wd:Q12140}
-//         ?medicine wdt:P279 ?item ; 
-//              wdt:P2175 wd:`
-// const val = "Q181923"
-// const end = `; wdt:P769 ?interactswith . 
-// ?type wdt:P31 ?medicine . 
-// ?interactswith wdt:P2175 ?treats . 
-// ?treats wdt:P31 wd:Q12135 . 
-// }
-// SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
-// }`
-// const queryint = start + val  + end
-//   try {
-//     const result = await runQuery(queryint)
-//     const output = Object.entries(result)[1][1]
-//     const need = Object.values(output)[0]
-//       console.table(need)
-//   } catch (error) {
-//       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
-//     }
-// }
-// interactionQuery()
+
 //_________________________________________________________________________________________________________________//
