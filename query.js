@@ -31,14 +31,12 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
       }
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
   }` // Defines query
-  try {
+  try { //if the query is succesfull the following will run
     const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
-    
-    const output = Object.entries(result)[1][1]
-    const need = Object.values(output)[0]
+    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     const diseases = []
-    for (var i = 0, l = need.length; i < l; i++){
-      const condition = need[i];
+    for (var i = 0, l = output.length; i < l; i++){ //adds all diseases into a list
+      const condition = output[i];
       diseases.push(condition)
     }
     return diseases
@@ -46,25 +44,27 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
   }
 }
+
 //_________________________________________________________________________________________________________________________________________//
-  async function medicationQuery(input) {
+async function medicationQuery(input) {
     const start = `SELECT DISTINCT ?medicine ?medicineLabel ?interactswithLabel ?treatsLabel 
     WHERE {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
       {
           VALUES ?item {wd:`
-const val = input
-const end = `} 
-?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
-}}`
-const queryint = start + val  + end
-  try {
+    const value = input
+    const end = `} 
+    ?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
+    }}`
+  const queryint = start + value + end //in order to run the query based on the input of the user we split it into 3
+  // and then piece the query together before we insert it into the runQuery() function
+  try { //if the query is succesfull the following will run
     const result = await runQuery(queryint)
-    const output = Object.values(Object.entries(result)[1][1])[0]
+    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     const medication = []
     for (var i = 0, l = output.length; i < l; i++){
-      const condition = output[i];
-      medication.push(condition)
+      const drug = output[i];
+      medication.push(drug) //adds all the meds to a list
     }
     return medication
   } catch (error) {
