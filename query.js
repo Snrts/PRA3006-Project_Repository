@@ -21,17 +21,6 @@ async function runQuery(query) {
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
-async function loadDropdown() {
-  const dropdown = document.getElementById("dropdown")
-  const list = await diseasesQuery()
-  for (var i = 0, l = list.length; i < l; i++) {
-    const option = document.createElement('option')
-    option.text = list[i].diseaseLabel.value;
-    option.value = list[i].disease.value;
-    dropdown.add(option)
-  }
-}
-
 async function diseasesQuery() { //asynchronous function to fetch diseases
   const query = `SELECT DISTINCT ?disease ?diseaseLabel ?typeLabel 
   WHERE {
@@ -56,14 +45,7 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
   }
 }
-loadDropdown()
 //_________________________________________________________________________________________________________________________________________//
-// function addChoice(form) {
-  //   const output = form.inputbox.value
-  //   let choice = output.slice(31);
-  //   alert("you chose" + choice);
-  //   interactionQuery(choice)
-  // }
   async function interactionQuery() {
     // console.log(selected)
     // const queryint = `SELECT DISTINCT ?medicine ?medicineLabel ?type ?typeLabel ?interactswithLabel ?treatsLabel 
@@ -87,5 +69,5 @@ loadDropdown()
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }
 }
-interactionQuery()
+// interactionQuery()
 //_________________________________________________________________________________________________________________//
