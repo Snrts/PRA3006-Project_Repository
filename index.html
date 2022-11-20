@@ -8,14 +8,14 @@
     </head>
 <body>
     <header class="w-2/3 right-0 p-2 absolute text-3xl">Medchecker</header>
-    <div class="h-full w-1/3 p-5 bg-gray-200">
+    <div class="min-h-full w-1/3 p-5 bg-gray-200">
         <p class="font-bold text-2xl mb-5">Diseases</p>
        
         <form id="form" method="get">
             <input 
                 type="search" 
                 id="searchbar" 
-                class="h-10 w-4/5 rounded-sm"
+                class="h-10 p-2 w-4/5 rounded-md"
                 placeholder="Search...">
                 <input type="button" title="search" class="w-1/6 h-10 rounded-md float-right bg-gray-400"></input>
             <select 
@@ -23,6 +23,7 @@
                 class="my-5 p-2 text-sm block w-full" 
                 id="dropdown" 
                 title="diseases"
+                size="4"
                 multiple>
             </select>
             <div class="w-full place-content-around gap-5 grid grid-cols-2">
@@ -33,7 +34,7 @@
                     value="submit">
             </div>
         </form>
-        <div class="border-2 p-3 mb-3 border-white">
+        <div class="border-2 p-3 rounded-md mb-3 border-white">
             <h1 class="font-bold text-gray-500 text-lg">Your Selection:</h1>
      <ul class="my-2"> </ul>
     </div>
