@@ -33,8 +33,10 @@ loadDropdown() // initiates function above
             button.innerHTML = "&times" // adds a cross 
             button.value = selection[i].value.slice(31) //assigns the disease id to the button so that it can be
             // we can use it to filter the selection and remove a choice
-        
+            button.classList.add("float-right")
+
             const item = document.createElement('li') //creates a list item for each of the diseases selected by the user
+            item.classList.add("w-full")
             item.innerHTML = selection[i].label //allows us to display the name of the disease
             item.append(button) // adds the button to the list element
 
@@ -52,9 +54,14 @@ async function fetchMeds(selection)
     {
         const code = choice[i].value.slice(31)
         const itemize = document.createElement('ul');
+        itemize.classList.add("list-disc")
+        
+        
         const container = document.createElement('div')
                 container.innerHTML = choice[i].label
-                container.append(itemize)
+        container.append(itemize)
+        container.classList.add("my-2")
+        container.classList.add("font-bold")
         const list = await medicationQuery(code)
         var medlist = []
 
@@ -63,7 +70,9 @@ async function fetchMeds(selection)
             medlist.push(list[j].medicine.value.slice(31))
 
             const item = document.createElement('li')
-                    item.innerHTML = list[j].medicineLabel.value
+            item.innerHTML = list[j].medicineLabel.value
+            item.classList.add("font-light")
+            item.classList.add("ml-5")
                     itemize.append(item)
         }
         medication.push([choice[i].label, medlist])
