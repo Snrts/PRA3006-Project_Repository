@@ -112,5 +112,5 @@ async function fetchInteractions(diseaseA, diseaseB) {
     }
 
 }
-fetchInteractions("Q202387", "Q181923")
+// fetchInteractions("Q181923", "Q202387")
 //_________________________________________________________________________________________________________________//

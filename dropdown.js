@@ -45,6 +45,7 @@ loadDropdown() // initiates function above
         }
         console.log(options[0].diseasecode)
         fetchMeds(selection) // passes on the selected diseases and initiates the query to fetch their medicines
+        interact(selection)
     })
     // $("#submit").on("click", function () { //adds event listener in the button in the html file with the id "submit"
     //     var selection = [] //clears the list before (in case the function is ran multiple times)
