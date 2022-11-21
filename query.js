@@ -46,27 +46,71 @@ async function medicationQuery(input) {
     WHERE {
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
       {
-          VALUES ?item {wd:`
-    const value = input
-    const end = `} 
+          VALUES ?item {wd:variable} 
     ?item wdt:P2176 ?medicine;
     }}`
-  const queryint = start + value + end //in order to run the query based on the input of the user we split it into 3
+  const querymeds = start.replace('variable', input) //in order to run the query based on the input of the user we split it into 3
   // and then piece the query together before we insert it into the runQuery() function
   try { //if the query is succesfull the following will run
-    const result = await runQuery(queryint)
-    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    const medication = []
-    for (var i = 0, l = output.length; i < l; i++){
-      const drug = output[i];
-      medication.push(drug) //adds all the meds to a list
-    }
+    const result = await runQuery(querymeds)
+    const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     return medication
   } catch (error) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }
 }
+// async function medicationQuery(input) {
+//     const start = `SELECT DISTINCT ?medicine ?medicineLabel ?interactswithLabel ?treatsLabel 
+//     WHERE {
+//       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+//       {
+//           VALUES ?item {wd:`
+//     const value = input
+//     const end = `} 
+//     ?item wdt:P2176 ?medicine;
+//     }}`
+//   const querymeds = start + value + end //in order to run the query based on the input of the user we split it into 3
+//   // and then piece the query together before we insert it into the runQuery() function
+//   try { //if the query is succesfull the following will run
+//     const result = await runQuery(querymeds)
+//     const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
+//     return medication
+//   } catch (error) {
+//       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+//     }
+// }
 
 //________________________________________________________________________________________________________________________________________//
+async function fetchInteractions(diseaseA, diseaseB) {
+  // const diseaseA = "Q202387"
+  // const diseaseB = "Q181923" 
+  const querytemplate = `SELECT DISTINCT  ?medicine ?medicineLabel ?interactswith ?interactswithLabel
+  WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+    {
+        VALUES ?item {wd:Q12140} #selects all entries that are medicines
+          ?medicine wdt:P31 ?item ;
+                    wdt:P2175 wd:DISA. #?medicine is a subclass of those entries
+        ?medicine wdt:P769 ?interactswith .
+         ?interactswith wdt:P2175 wd:DISB .
+      }
+    UNION {
+      VALUES ?item {wd:Q12140} #selects all entries that are medicines
+          ?medicine wdt:P31 ?item ;
+                    wdt:P2175 wd:DISA . #?medicine is a subclass of those entries
+        ?interactswith wdt:P769 ?medicine .
+          ?interactswith wdt:P2175 wd:DISB .
+      }
+      }`
+  const queryint = querytemplate.replaceAll("DISA", diseaseA).replaceAll("DISB", diseaseB)
+  try { //if the query is succesfull the following will run
+    const result = await runQuery(queryint)
+    const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
+    console.log(medication)
+  } catch (error) {
+      alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+    }
 
+}
+fetchInteractions("Q202387", "Q181923")
 //_________________________________________________________________________________________________________________//

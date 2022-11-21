@@ -26,9 +26,10 @@ loadDropdown() // initiates function above
     $("#submit").on("click", function () { //adds event listener in the button in the html file with the id "submit"
         var selection = [] //clears the list before (in case the function is ran multiple times)
         var selection = $("select option:selected") // assigns all the selected options to the variable selection
+        var options = []
         $('ul').empty() // clears the list element before running the rest of the function (in case the function is ran multiple times)
         for (var i = 0, l = selection.length; i < l; i++) { // loops through all elements of the selection list
-    
+            options.push({diseasecode: selection[i].value.slice(31), disease: selection[i].label})
             const button = document.createElement('button') //creates a button element for each of the selected diseases
             button.innerHTML = "&times" // adds a cross 
             button.value = selection[i].value.slice(31) //assigns the disease id to the button so that it can be
@@ -42,9 +43,76 @@ loadDropdown() // initiates function above
 
             $('ul').prepend(item) // adds the list element to the list
         }
+        console.log(options[0].diseasecode)
         fetchMeds(selection) // passes on the selected diseases and initiates the query to fetch their medicines
     })
+    // $("#submit").on("click", function () { //adds event listener in the button in the html file with the id "submit"
+    //     var selection = [] //clears the list before (in case the function is ran multiple times)
+    //     var selection = $("select option:selected") // assigns all the selected options to the variable selection
+    //     $('ul').empty() // clears the list element before running the rest of the function (in case the function is ran multiple times)
+    //     for (var i = 0, l = selection.length; i < l; i++) { // loops through all elements of the selection list
+    
+    //         const button = document.createElement('button') //creates a button element for each of the selected diseases
+    //         button.innerHTML = "&times" // adds a cross 
+    //         button.value = selection[i].value.slice(31) //assigns the disease id to the button so that it can be
+    //         // we can use it to filter the selection and remove a choice
+    //         button.classList.add("float-right")
+
+    //         const item = document.createElement('li') //creates a list item for each of the diseases selected by the user
+    //         item.classList.add("w-full")
+    //         item.innerHTML = selection[i].label //allows us to display the name of the disease
+    //         item.append(button) // adds the button to the list element
+
+    //         $('ul').prepend(item) // adds the list element to the list
+    //     }
+    //     fetchMeds(selection) // passes on the selected diseases and initiates the query to fetch their medicines
+    // })
 //_______________________________________________________________________________________________________________//
+// async function fetchMeds(selection)
+// {   
+//     $('#div').empty() //clears out the container before the function is ran (incase is is ran multiple times)
+//     var medication = [] //clears out the list of medication before the function is ran (incase is is ran multiple times)
+//     for (var i = 0, l = selection.length; i < l; i++)
+//     {
+//         const code = selection[i].diseasecode
+//         const itemize = document.createElement('ul');
+//         itemize.classList.add("list-disc")
+        
+        
+//         const container = document.createElement('div')
+//             container.innerHTML = selection[i].disease
+//         container.append(itemize)
+//         container.classList.add("my-2")
+//         container.classList.add("font-bold")
+//         const list = await medicationQuery(code)
+//         var medlist = []
+
+//         for (var j = 0, m = list.length; j < m; j++)
+//         {
+//             medlist.push(list[j].medicine.value.slice(31))
+
+//             const item = document.createElement('li')
+//             item.innerHTML = list[j].medicineLabel.value
+//             item.classList.add("font-light")
+//             item.classList.add("ml-5")
+//                     itemize.append(item)
+//         }
+//         medication.push({disease: selection[i].name,  medlist])
+//         $('#div').append(container)
+//     }
+
+//     for (k = 0, n = selection.length; k < n; k++)
+//     {
+//         var arrA = medication[k][1]
+//         for (o = 0, p = selection.length; o < p && o != k; o++)
+//         {
+//             var arrB = medication[o][1]
+//             var comb = "overlap " + medication[k][0] + medication[o][0]
+//             overlap(comb, arrA, arrB)
+//         }
+//     }
+// }
+
 async function fetchMeds(selection)
 {   
     $('#div').empty() //clears out the container before the function is ran (incase is is ran multiple times)
