@@ -6,7 +6,7 @@ async function loadDropdown() {
         const option = document.createElement('option') //for each element in the list
         // a new 'option' is created in the form
         option.text = list[i].diseaseLabel.value; // attaches the name of the disease to the option
-        option.label = list[i].diseaseLabel.value;
+        // option.label = list[i].diseaseLabel.value;
         option.value = list[i].disease.value; //attaches the wikidata code to the option so it can 
         //be passed on later
         dropdown.add(option) // adds newly created option to the <select> </select> element in the html
@@ -46,7 +46,7 @@ loadDropdown() // initiates function above
     })
 //_______________________________________________________________________________________________________________//
 async function fetchMeds(selection)
-{
+{   
     $('#div').empty() //clears out the container before the function is ran (incase is is ran multiple times)
     var medication = [] //clears out the list of medication before the function is ran (incase is is ran multiple times)
     const choice = selection;

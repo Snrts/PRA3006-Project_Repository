@@ -33,12 +33,7 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
   }` // Defines query
   try { //if the query is succesfull the following will run
     const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
-    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    const diseases = []
-    for (var i = 0, l = output.length; i < l; i++){ //adds all diseases into a list
-      const condition = output[i];
-      diseases.push(condition)
-    }
+    const diseases = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     return diseases
   } catch (error) {
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
@@ -54,7 +49,7 @@ async function medicationQuery(input) {
           VALUES ?item {wd:`
     const value = input
     const end = `} 
-    ?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
+    ?item wdt:P2176 ?medicine;
     }}`
   const queryint = start + value + end //in order to run the query based on the input of the user we split it into 3
   // and then piece the query together before we insert it into the runQuery() function
