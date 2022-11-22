@@ -59,54 +59,33 @@ async function medicationQuery(input) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }
 }
-// async function medicationQuery(input) {
-//     const start = `SELECT DISTINCT ?medicine ?medicineLabel ?interactswithLabel ?treatsLabel 
-//     WHERE {
-//       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
-//       {
-//           VALUES ?item {wd:`
-//     const value = input
-//     const end = `} 
-//     ?item wdt:P2176 ?medicine;
-//     }}`
-//   const querymeds = start + value + end //in order to run the query based on the input of the user we split it into 3
-//   // and then piece the query together before we insert it into the runQuery() function
-//   try { //if the query is succesfull the following will run
-//     const result = await runQuery(querymeds)
-//     const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-//     return medication
-//   } catch (error) {
-//       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
-//     }
-// }
 
 //________________________________________________________________________________________________________________________________________//
-async function fetchInteractions(diseaseA, diseaseB) {
+async function fetchInteractions(medicine) {
   // const diseaseA = "Q202387"
   // const diseaseB = "Q181923" 
-  const querytemplate = `SELECT DISTINCT  ?medicine ?medicineLabel ?interactswith ?interactswithLabel
+  const querytemplate = `SELECT DISTINCT  ?interactswith ?interactswithLabel
   WHERE {
     SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
     {
-        VALUES ?item {wd:Q12140} #selects all entries that are medicines
-          ?medicine wdt:P31 ?item ;
-                    wdt:P2175 wd:DISA. #?medicine is a subclass of those entries
-        ?medicine wdt:P769 ?interactswith .
-         ?interactswith wdt:P2175 wd:DISB .
+        wd:MED wdt:P769 ?interactswith .
+      } UNION {
+       ?interactswith wdt:P769 wd:MED .
       }
-    UNION {
-      VALUES ?item {wd:Q12140} #selects all entries that are medicines
-          ?medicine wdt:P31 ?item ;
-                    wdt:P2175 wd:DISA . #?medicine is a subclass of those entries
-        ?interactswith wdt:P769 ?medicine .
-          ?interactswith wdt:P2175 wd:DISB .
-      }
-      }`
-  const queryint = querytemplate.replaceAll("DISA", diseaseA).replaceAll("DISB", diseaseB)
+      ?interactswith wdt:P2175 ?treats .
+      ?treats  wdt:P31 wd:Q112193867 ;
+                     wdt:P1995 wd:Q7867 .
+  }`
+  const queryint = querytemplate.replaceAll("MED", medicine)
   try { //if the query is succesfull the following will run
     const result = await runQuery(queryint)
     const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    console.log(medication)
+    const output = []
+    // console.log(medication)
+    for (var a = 0, b = medication.length; a < b; a++){
+
+    }
+    return medication
   } catch (error) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }

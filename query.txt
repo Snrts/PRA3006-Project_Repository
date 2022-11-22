@@ -90,7 +90,8 @@ WHERE {
   {
       VALUES ?item {wd:Q181923} #selects all entries that are medicines
         ?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
-  OPTIONAL { 
+  
+OPTIONAL { 
          ?interactswith wdt:P769 ?medicine . #Significant drug interactions of that medicine
          ?interactswith wdt:P2175 ?treats .
          ?treats  wdt:P31 wd:Q112193867 ;
