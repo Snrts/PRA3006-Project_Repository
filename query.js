@@ -20,25 +20,20 @@ async function runQuery(query) {
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
-async function diseasesQuery() { //asynchronous function to fetch diseases
+async function diseasesQuery() { // asynchronous function to fetch diseases
   const query = `SELECT DISTINCT ?disease ?diseaseLabel
   WHERE {
     {
       VALUES ?item {wd:Q112193867} #all entries of "mental disorder
-            ?disease wdt:P31 ?item ;
-                     wdt:P1995 wd:Q7867 ;
-                     wdt:P2176 ?treatment .
+            ?disease wdt:P31 ?item ; # the variable disease is seen as an instance of mental disorder
+                     wdt:P1995 wd:Q7867 ; # which is falls under psychiatry 
+                     wdt:P2176 ?treatment . # and has any treatment 
       }
       SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
   }` // Defines query
   try { //if the query is succesfull the following will run
     const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
-    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    const diseases = []
-    for (var i = 0, l = output.length; i < l; i++){ //adds all diseases into a list
-      const condition = output[i];
-      diseases.push(condition)
-    }
+    const diseases = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     return diseases
   } catch (error) {
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
@@ -47,31 +42,47 @@ async function diseasesQuery() { //asynchronous function to fetch diseases
 
 //_________________________________________________________________________________________________________________________________________//
 async function medicationQuery(input) {
-    const start = `SELECT DISTINCT ?medicine ?medicineLabel ?interactswithLabel ?treatsLabel 
-    WHERE {
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
-      {
-          VALUES ?item {wd:`
-    const value = input
-    const end = `} 
-    ?item wdt:P2176 ?medicine; #?medicine is a subclass of those entries
-    }}`
-  const queryint = start + value + end //in order to run the query based on the input of the user we split it into 3
-  // and then piece the query together before we insert it into the runQuery() function
+  const template = `SELECT DISTINCT ?medicine ?medicineLabel  
+  WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+    {
+        VALUES ?item {wd:DISEASE} # select all items connected to "variable 
+        ?item wdt:P2176 ?medicine;
+  }
+}`
+const querymeds = template.replace('DISEASE', input) //we replace the string "variable" in the query by the code of the disease, stored in "input"
+try { //if the query is succesfull the following will run
+  const result = await runQuery(querymeds) // first waits for the result to be fetched, otherwise we will not catch the promise
+  const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
+  return medication //we need this so that when we run the function elsewhere we can store the results
+} catch (error) {
+    alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+  }
+}
+//________________________________________________________________________________________________________________________________________//
+
+async function interactionsQuery(medicine, disease) {
+  const querytemplate = `SELECT DISTINCT  ?interactswith ?interactswithLabel
+  WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". }
+    {
+        wd:MED wdt:P769 ?interactswith . #the medications that interact with the input medicine
+      } UNION {
+       ?interactswith wdt:P769 wd:MED . #the medications that the input medicine interacts with 
+      }
+      ?interactswith wdt:P2175 ?treats .
+      ?treats wdt:P31 wd:Q112193867 ; 
+                  wdt:P1995 wd:Q7867 .
+      FILTER(?treats = wd:DISEASES ) # filters the results such that we only get the interactions with a given medication if it treats one of 
+                                  # the selected diseases
+  }`
+  const queryint = querytemplate.replaceAll("MED", medicine).replace("DISEASES", disease)
   try { //if the query is succesfull the following will run
     const result = await runQuery(queryint)
-    const output = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    const medication = []
-    for (var i = 0, l = output.length; i < l; i++){
-      const drug = output[i];
-      medication.push(drug) //adds all the meds to a list
-    }
+    const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     return medication
   } catch (error) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }
 }
-
-//________________________________________________________________________________________________________________________________________//
-
 //_________________________________________________________________________________________________________________//
