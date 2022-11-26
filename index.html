@@ -7,8 +7,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
-<body class="bg-gray-100">
-    <header class="w-full bg-white p-5 mb-2 float-right">
+    <style>
+        body{
+            background-image: url(background.svg);
+        background-size: cover;
+        }
+    </style>
+<body>
+    <header class="w-full bg-white p-5 float-right">
     <nav class="flex text-xl justify-around">
         <a class="hover:border-b-2 border-gray-400" href="about.html">About</a>
         <a class="hover:border-b-2 border-gray-400" href="PRA3006_Coursedetails.html">PRA3006</a>
@@ -16,12 +22,12 @@
     <nav>
         
     </header>
-    <div class="w-full h-44 mb-2 overflow-hidden">
+    <div class="w-full h-44 overflow-hidden">
         <img alt="demo" src="header.svg" class="object-cover w-full overflow-hidden" ></div>
-    <div class="w-2/3 bg-gray-100 float-right h-5/6 p-5">
-        <header class="text-4xl font-bold text-gray-600">Medchecker</header>
-        <div class="grid mt-5 min-h-1/2 place-content-center" id ="chart">
-            <div class="bg-gray-200 p-5 rounded-lg text-xl font-light m-14">
+    <div class="w-2/3 float-right h-5/6">
+        <header class="text-4xl text-center w-full font-bold bg-white h-20 pt-4 text-gray-600">Medchecker</header>
+        <div class="grid  min-h-1/2 bg-white/50 place-content-center" id ="chart">
+            <div class="bg-white/70 p-5 rounded-lg text-xl font-light m-14">
             Begin by selecting two diseases <br> from the list. 
             to select two hold <br>ctrl while clicking with your mouse
             <svg class="mt-10"height="20" width="100">
@@ -33,7 +39,7 @@
     </div>
 
 
-    <div class="min-h-[calc(100vh-95px)] float-left rounded-b-2xl w-1/3 p-5 bg-gray-200">
+    <div class="min-h-[calc(100vh-95px)] float-left rounded-b-2xl w-1/3 p-5 bg-white/80">
         <div class="inline-flex pt-4">
         <p class="font-bold text-2xl">Diseases</p>
         
@@ -41,7 +47,7 @@
         <form id="form" method="get">
             <select 
                 name="inputbox"
-                class="mb-5 p-2 text-sm block w-full" 
+                class="mb-5 p-2 text-md block w-full" 
                 id="dropdown" 
                 title="diseases"
                 size="8"
