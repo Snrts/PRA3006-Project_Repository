@@ -1,6 +1,9 @@
 
 function makeMatrix(drugs) {
     let filtered = drugs.filter(drug => drug.interactswith.map(x => x.interactswithLabel.value).length>0)
+    if (filtered.length == 0) {
+        alert("No interactions")
+    }
     const size = filtered.length
     const matrix = []
     filtered.forEach((drug) => {
@@ -15,7 +18,24 @@ function makeMatrix(drugs) {
 
     dataViz(filtered, matrix)
 }
-
+$("#submit").on("click",
+function(){
+    $("#chart").empty()
+    const loader = document.createElement("div")
+    loader.classList.add("border-t-emerald-500")
+    loader.classList.add("rounded-full")
+    loader.classList.add("h-24","w-24","m-auto")
+    loader.classList.add("border-t-8")
+    loader.classList.add("border-8")
+    loader.classList.add("animate-spin")
+    const text = document.createElement("div")
+    text.classList.add("mx-auto", "w-fit",  "mt-2")
+    text.innerHTML = "loading...."
+    
+    $("#chart").append(loader)
+    $("#chart").append(text)
+}
+)
 function dataViz(data, matrix) {
     $("#chart").empty()
     const margin = { left: 90, top: 90, right: 90, bottom: 90 },

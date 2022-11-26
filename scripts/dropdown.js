@@ -25,6 +25,7 @@ async function loadDropdown() {
 loadDropdown() // initiates function above
 //________________________________________________________________________________________________//
     $("#submit").on("click", async function () { //adds event listener in the button in the html file with the id "submit"
+        
         var selection = [] //clears the list before (in case the function is ran multiple times)
         var selection = $("select option:selected") // assigns all the selected options to the variable selection
         var disandmeds = []
