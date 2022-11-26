@@ -1,0 +1,57 @@
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width , initial-scale=1.0">
+        <title>Website</title>
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+<body>
+    <header>
+        <h1>Mental Health Drug Interactions</h1>
+        <nav>
+          <a href="about.html">About</a>
+        <a href="PRA3006_Coursedetails.html">PRA3006</a>
+        <a href="interaction.html">Drug Interactions</a>
+        </nav>
+      </header>
+          <style>
+          header {
+              width: 100%;
+              height: 80px;
+              background-color: #b2d9f3;
+              text-align: center;
+              position: relative;
+              position: sticky;
+          }
+          nav {
+              width: 100%;
+              height:max-content;
+              font-style: normal;
+              color:beige;
+              font-weight: bold;
+              background-color: #b2d9f3;
+              position:relative;
+              position:fixed;
+              top: 9.5%;
+          }
+          tit {
+                font-style: italic;
+                color:blueviolet;
+                font-size: 15pt;
+            }
+            em {
+                font-style: italic;
+            }
+          </style>        
+    <h1>
+        <p><tit>PRA3006 Course description</tit></p>
+    </h1>
+    <p>PRA3006 stands for <em>Programming in the Life Sciences</em>.</p>
+    <p>PRA3006 is a course offered by the Maastricht Science Program (MSP). It is a 3000lvl course (highest level available at MSP) that expands on students knowledge in programming (SPARQL, d3.js, javascript, html, css) and their biological knowledge (since we need to answer a biology-related question using the aforementioned languages).</p>
+    <p>Full course description (taken from <a href="https://www.maastrichtuniversity.nl/meta/416320/programming-life-sciences">here</a></p>
+        <p>In the life sciences the physical interactions between chemical and biological entities, like genes, RNA, proteins, metabolites, and drugs, is of key interest. Not only do these interactions play an important role in the regulation of gene expression, inhibition of proteins, and they basically define all cellular processes and therefore life itself. For example, pharmacology studies the action of drugs on protein, metabolism depends on the interactions of small molecule substrates with enzymes, and coronaviruses reorganize the normal function of cells after entry into the cell.</p>
+        
+        <p>With the increasing amount of knowledge and data in the life sciences, automation becomes increasingly important. The data, whether large or small and complex, have challenges to integrate data from different experiments and data sources. Many core life sciences databases provide SPARQL end points to their knowledge, while Wikidata is a spider in this web of semantic data. In this course, you will learn to use how to interact with SPARQL endpoints with JavaScript and visualize the results graphically with a library like d3.js or Cytoscape.js.</p>
+</body>
