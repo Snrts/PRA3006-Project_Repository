@@ -39,9 +39,9 @@
     </div>
 
 
-    <div class="min-h-[calc(100vh-95px)] float-left rounded-b-2xl w-1/3 p-5 bg-white/80">
+    <div class="min-h-fit float-left  font-bold rounded-b-2xl w-1/3 p-5 bg-blue-600">
         <div class="inline-flex pt-4">
-        <p class="font-bold text-2xl">Diseases</p>
+        <p class="font-bold text-white mb-2 text-2xl">Diseases</p>
         
         </div>
         <form id="form" method="get">
@@ -54,21 +54,21 @@
                 multiple>
             </select>
             <div class="w-full place-content-around gap-5 grid grid-cols-2">
-                <input class="bg-white p-2 rounded-md" 
+                <input class="text-blue-600 bg-white p-2 rounded-md" 
                     title="reset" 
                     type="reset">
-                <input class="bg-white p-2 rounded-md" 
+                <input class="text-blue-600 bg-white p-2 rounded-md" 
                     type="button"
                     id="submit"
                     value="submit">
             </div>
         </form>
 
-        <div class="border-2 p-3 rounded-md mb-3 border-white">
+        <div class="border-2 p-3 bg-white rounded-md mb-3 border-white">
         <h1 class="font-bold text-gray-500 text-lg">Your Selection:</h1>
-     <ul class="my-2" id="diseaseList"> </ul>
+     <ul class="my-2 " id="diseaseList"> </ul>
     </div>
-    <div id="div" class="border"></div>
+    <div id="div" class="border grid grid-cols-2 rounded-md p-3 bg-white"></div>
     </div>
         <script type="text/javascript" src="./scripts/query.js"></script>
         <script type="text/javascript" src="./scripts/interactions.js"></script>

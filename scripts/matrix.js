@@ -22,7 +22,7 @@ $("#submit").on("click",
 function(){
     $("#chart").empty()
     const loader = document.createElement("div")
-    loader.classList.add("border-t-emerald-500")
+    loader.classList.add("border-t-blue-600")
     loader.classList.add("rounded-full")
     loader.classList.add("h-24","w-24","m-auto")
     loader.classList.add("border-t-8")
