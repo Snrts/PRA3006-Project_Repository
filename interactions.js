@@ -5,37 +5,32 @@ function overlap(title, x, y) { //the title is the relevat diseases and should b
 }
 
 async function fetchInteractions(selected) {
-    switch (selected.length) {
-        case 3:
-            const col3 = []
-            
-        for (var i = 0; i < 3; i++) {
-            for (var j = 0; j < 3 && i != j; j++){
-                const disease = ((selected[i])[0])[0]
-                const meds = ((selected[j])[0])[2]
-                const int = []
-                for (var k = 0, l = meds.length; k < l; k++){
-                    const interactions = await interactionsQuery((meds[k])[0], disease)
+    //         for (var i = 0; i < 3; i++) {
+    //         for (var j = 0; j < 3 && i != j; j++){
+    //             const disease = ((selected[i])[0])[0]
+    //             const meds = ((selected[j])[0])[2]
+    //             const int = []
+    //             for (var k = 0, l = meds.length; k < l; k++){
+    //                 const interactions = await interactionsQuery((meds[k])[0], disease)
         
-                    int.push(
-                        {
-                            diseaseName: ((selected[j])[0])[1],
-                            diseaseCode: ((selected[j])[0])[0],
-                            medicationName: (meds[k])[1], 
-                            medicationCode: (meds[k])[0],
-                            interactswith: interactions
-                        })
+    //                 int.push(
+    //                     {
+    //                         diseaseName: ((selected[j])[0])[1],
+    //                         diseaseCode: ((selected[j])[0])[0],
+    //                         medicationName: (meds[k])[1], 
+    //                         medicationCode: (meds[k])[0],
+    //                         interactswith: interactions
+    //                     })
                     
-                }
+    //             }
                 
             
-            col3.push(int)};
-    }
-    console.log(col3)
-    // write what the thingy should be replaced by if theres only 2 options 
-    //  eg replaceAll("DISEASE", code)
-    break;
-        case 2: 
+    //         col3.push(int)};
+    // }
+    // console.log(col3)
+    // // write what the thingy should be replaced by if theres only 2 options 
+    // //  eg replaceAll("DISEASE", code)
+        // case 2: 
             const disA = (selected[0][0])[0]
             const medsA = (selected[0][0])[2]
             const disB = (selected[1][0])[0]
@@ -64,11 +59,11 @@ async function fetchInteractions(selected) {
                     })
             }
             makeMatrix(medsAll)
-            break;
-        case 1: alert("no interactions")
-            break;
-        default: alert("currently we can only check for up to 3 diseases at a time");
-            break;
-    }
+            // break;
+    //     case 1: alert("no interactions")
+    //         break;
+    //     default: alert("currently we can only check for up to 3 diseases at a time");
+    //         break;
+    // }
 }
 
