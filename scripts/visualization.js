@@ -1,58 +1,23 @@
-
-function makeMatrix(drugs) {
-    let filtered = drugs.filter(drug => drug.interactswith.map(x => x.interactswithLabel.value).length>0)
-    if (filtered.length == 0) {
-        alert("No interactions")
-    }
-    const size = filtered.length
-    const matrix = []
-    filtered.forEach((drug) => {
-        let row = Array(size).fill(0)
-        for (var i = 0, l = drug.interactswith.length; i < l; i++){
-                let index = filtered.map(x => x.medicationName).indexOf((drug.interactswith[i].interactswithLabel.value))
-                row.splice(index, 1, 1)
-        }
-        matrix.push(row)    
-    }
-        )
-
-    dataViz(filtered, matrix)
-}
-$("#submit").on("click",
-function(){
-    $("#chart").empty()
-    const loader = document.createElement("div")
-    loader.classList.add("border-t-blue-600")
-    loader.classList.add("rounded-full")
-    loader.classList.add("h-24","w-24","m-auto")
-    loader.classList.add("border-t-8")
-    loader.classList.add("border-8")
-    loader.classList.add("animate-spin")
-    const text = document.createElement("div")
-    text.classList.add("mx-auto", "w-fit",  "mt-2")
-    text.innerHTML = "loading...."
-    
-    $("#chart").append(loader)
-    $("#chart").append(text)
-}
-)
 function dataViz(data, matrix) {
-    $("#chart").empty()
+    $("#chart").empty() //clears chart area before displaying the 
+    //_______________________Set-up_________________________________________________//
+    
+    const names = []
+        const colors = []
+        for (var i = 0, l = data.length; i < l; i++) {
+            names.push(data[i].medicationName)
+            const randomColor = Math.floor(Math.random() * 16777215).toString(16)
+            colors.push('#' + randomColor)
+    }
+    
     const margin = { left: 90, top: 90, right: 90, bottom: 90 },
         width = 1000 - margin.left - margin.right, // more flexibility: Math.min(window.innerWidth, 1000)
         height = 1000 - margin.top - margin.bottom, // same: Math.min(window.innerWidth, 1000)
         innerRadius = Math.min(width, height) * .39,
         outerRadius = innerRadius * 1.1;
 
-    const names = []
-    const colors = []
-    for (var i = 0, l = data.length; i < l; i++) {
-        names.push(data[i].medicationName)
-        const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-        colors.push('#' + randomColor)
-    }
+    
  
-      
     opacityDefault = 0.8
 
     const matr = matrix
@@ -63,15 +28,11 @@ function dataViz(data, matrix) {
 
     const chord = d3.chord()
         .padAngle(0.15)
-        // .sortGroups(d3.descending)
-        // .sortSubgroups(d3.descending)
 
     const arc = d3.arc()
         .innerRadius(innerRadius)
         .outerRadius(outerRadius)
         
-    
-
     const ribbon = d3.ribbon()
         .radius(innerRadius)
     
@@ -85,6 +46,8 @@ function dataViz(data, matrix) {
         .style("border-width", "1px")
         .style("border-radius", "5px")
         .style("padding", "10px")
+    // .style("margin-top", "400px")
+    .style("width", "200px")
 
     //Create SVG
     const svg = d3.select("#chart")
@@ -101,18 +64,11 @@ function dataViz(data, matrix) {
         .style("fill", function (d) { return color(d.index); })
         .enter().append("g")
         .attr("class", "group")
-        
-    
-    //.on("mouseover", fade(.1))
-    //.on("mouseout", fade(opacityDefault))
-
-    // text popups
-    //.on("click", mouseoverChord)
-    //.on("mouseout", mouseoutChord);
+        doc
 
     outerArcs.append("path")
         .style("fill", function(d) { return color(d.index); })
-        .attr("d", arc);
+        .attr("d", arc);// attribute of the svg element path
 
     //Append names
     outerArcs.append("text")
