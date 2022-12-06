@@ -17,7 +17,7 @@ async function fetchInteractions(selected) {
                 interactswith: interactions
             })
     }
-    
+
     for (var j = 0, m = medsB.length; j < m; j++)
     {
         const interactions = await interactionsQuery((medsB[j])[0], disA)
@@ -50,7 +50,7 @@ function makeMatrix(allMeds) {
         matrix.push(row)    
     }
         )
-
-    dataViz(filtered, matrix)
+console.log(filtered)
+    dataVisualization(filtered, matrix)
 }
 
