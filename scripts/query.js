@@ -8,7 +8,6 @@ class SPARQLQueryDispatcher {
       return fetch( fullUrl , { headers } ).then( body => body.json());
   }
 }
-// const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
 // Setting up an endpoint to the wikidata database 
 //_________________________________________________________________________________________________________________//
 async function runQuery(query) {
@@ -77,6 +76,36 @@ async function interactionsQuery(medicine, disease) {
                                   # the selected diseases
   }`
   const queryint = querytemplate.replaceAll("MED", medicine).replace("DISEASES", disease)
+  try { //if the query is succesfull the following will run
+    const result = await runQuery(queryint)
+    const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
+    return medication
+  } catch (error) {
+      alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+    }
+}
+async function interactionsQuery2(medicine, disease) {
+  const querytemplate = `SELECT DISTINCT ?medicine ?medicineLabel  (group_concat(?interactswith;separator=", ") as ?interactions) (group_concat(?interactswithLabel;separator=", ") as ?interactionsLabel)
+  WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". 
+                           ?interactswith rdfs:label ?interactswithLabel.
+                           ?medicine rdfs:label ?medicineLabel .}
+    VALUES ?item {wd:DISEASEA} # select all items connected to "variable 
+        ?item wdt:P2176 ?medicine  
+    {
+        ?medicine wdt:P769 ?interactswith . #the medications that interact with the input medicine
+      } UNION {
+       ?interactswith wdt:P769 ?medicine . #the medications that the input medicine interacts with 
+      }
+      ?interactswith wdt:P2175 ?treats .
+      ?treats wdt:P31 wd:Q112193867 ; 
+                  wdt:P1995 wd:Q7867 .
+       FILTER(INTERACTIONS) # filters the results such that we only get the interactions with a given medication if it treats one of 
+                                  # the selected diseases
+
+  }  
+GROUP BY ?medicine ?medicineLabel`
+  const queryint = querytemplate.replaceAll("DISEASEA", medicine).replace("INTERACTIONS", disease)
   try { //if the query is succesfull the following will run
     const result = await runQuery(queryint)
     const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
