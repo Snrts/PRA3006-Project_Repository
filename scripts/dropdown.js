@@ -40,7 +40,6 @@ loadDropdown() // initiates function above
             const meds = await fetchMeds(diseasesSelected[i])// passes on the selected diseases and initiates the query to fetch their medicines
             allMeds.push(meds)
         }
-        console.table(allMeds)
     fetchInteractions(allMeds)
     })
 //_________________________________________________________________________________________________________________________//    
