@@ -5,7 +5,7 @@ Aleksandrs Handramaj - @ahandramaj <br>
 Veronique Hehl - @stuurtjevero <br>
 
 ## The Project
-### Motivation
+### Aim
 This Repository contains the code for the psychiatric medication checker that was built during the PRA3006: Programming in the Life Sciences course of the academic year 2022-2023. 
 
 The Tool aims to show how different webservices can be combined to provide an accessible resource which may help patients suffering from simultaneous mental disorders check the interactions  and potentially the overlap between the medications used as treatment. This tool does not claim to replace any professional medical advice, simply to show the potential for the usage of tools such as this. 
@@ -27,4 +27,5 @@ The Tool aims to show how different webservices can be combined to provide an ac
          <a href="https://tailwindcss.com/">Tailwindcss</a> is a css framework that greatly simplifies the design aspect<br> 
         <i>Due to the short duration of the course, we had to choose functionality over design, by using Tailwindcss we were still able to work on user experience without taking away from the time spent on the functionality. Since all of the styling is done right in the html file, there are no css files cluttering up our project, furthermore, it made the project much easier to maintain when working in a group. </i></li>
 </ul>
+
 ## Files included in this repository 
