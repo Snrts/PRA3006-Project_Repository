@@ -15,16 +15,19 @@
         }
     </style>
     <body>
+    <!-- header -->
         <header class="w-full bg-white p-5 float-right">
             <nav class="flex text-xl justify-around">
                 <a class="hover:border-b-2 border-gray-400"
-                    href="homepage.html">HOME</a></nav>
-            <nav>
+                    href="homepage.html">HOME</a>
+            </nav>
+        </header>
+    <!-- Image  -->
+        <div class="w-full h-44 overflow-hidden">
+            <img alt="demo" src="../static/header.svg" class="object-cover
+                w-full overflow-hidden">
+        </div>
 
-            </header>
-            <div class="w-full h-44 overflow-hidden">
-                <img alt="demo" src="../static/header.svg" class="object-cover
-                    w-full overflow-hidden"></div>
             <div class="w-2/3 float-right h-5/6">
                 <header class="text-4xl text-center w-full font-bold bg-white
                     h-20 pt-4 text-gray-600">Medchecker</header>
@@ -77,13 +80,13 @@
                     <h1 class="font-bold text-gray-500 text-lg">Your Selection:</h1>
                     <ul class="my-2 " id="diseaseList"> </ul>
                 </div>
-                <div id="div" class="border grid grid-cols-2 justify-between
+                <div id="div" class="border 
                     rounded-md p-3 bg-white"></div>
 
                 <script type="text/javascript" src="../scripts/query.js"></script>
                 <script type="text/javascript" src="../scripts/interactions.js"></script>
                 <script type="text/javascript" src="../scripts/dropdown.js"></script>
-                <script type="text/javascript"
-                    src="../scripts/visualization.js"></script>
+                <script type="text/javascript" src="../scripts/visualization.js"></script>
+                <script type="text/javascript" src="../scripts/medications.js"></script>
             </body>
         </html>
