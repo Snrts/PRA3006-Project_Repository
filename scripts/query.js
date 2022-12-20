@@ -8,15 +8,14 @@ class SPARQLQueryDispatcher {
       return fetch( fullUrl , { headers } ).then( body => body.json());
   }
 }
-// const queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
 // Setting up an endpoint to the wikidata database 
 //_________________________________________________________________________________________________________________//
 async function runQuery(query) {
   const endpointUrl = 'https://query.wikidata.org/sparql';
   let queryDispatcher = new SPARQLQueryDispatcher(endpointUrl);
   let response = await queryDispatcher.query(query);
-  // console.table(response)
-  return response
+  // console.table(response.results.bindings)
+  return response.results.bindings
 }
 // Defines a function into which we can input and run a query
 //_________________________________________________________________________________________________________________//
@@ -34,7 +33,7 @@ async function diseasesQuery() { // asynchronous function to fetch diseases
   try { //if the query is succesfull the following will run
     const result = await runQuery(query); //runs the function "runQuery()" with the previous query as input, then waits for that to be finished
     const diseases = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-    return diseases
+    return result
   } catch (error) {
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
   }
@@ -54,7 +53,7 @@ const querymeds = template.replace('DISEASE', input) //we replace the string "va
 try { //if the query is succesfull the following will run
   const result = await runQuery(querymeds) // first waits for the result to be fetched, otherwise we will not catch the promise
   const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
-  return medication //we need this so that when we run the function elsewhere we can store the results
+  return result //we need this so that when we run the function elsewhere we can store the results
 } catch (error) {
     alert(error) // if the query can not be succesfully finished it gives an error in the browser.
   }
@@ -81,6 +80,38 @@ async function interactionsQuery(medicine, disease) {
     const result = await runQuery(queryint)
     const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
     return medication
+  } catch (error) {
+      alert(error) // if the query can not be succesfully finished it gives an error in the browser.
+    }
+}
+async function interactionsQuery2(medicine, disease) {
+  const querytemplate = `SELECT DISTINCT ?medicine ?medicineLabel (group_concat(?interactswith;separator=",") as ?interactions) (group_concat(?interactswithLabel;separator=",") as ?interactionsLabel)
+  WHERE {
+    SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE], en". 
+                           ?interactswith rdfs:label ?interactswithLabel.
+                           ?medicine rdfs:label ?medicineLabel .}
+    VALUES ?item {wd:DISEASEA} # select all items connected to "variable 
+        ?item wdt:P2176 ?medicine  
+    {
+        ?medicine wdt:P769 ?interactswith . #the medications that interact with the input medicine
+      } UNION {
+       ?interactswith wdt:P769 ?medicine . #the medications that the input medicine interacts with 
+      }
+      ?interactswith wdt:P2175 ?treats .
+      ?treats wdt:P31 wd:Q112193867 ; 
+                  wdt:P1995 wd:Q7867 .
+       FILTER(INTERACTIONS) # filters the results such that we only get the interactions with a given medication if it treats one of 
+                                  # the selected diseases
+
+  }  
+GROUP BY ?medicine ?medicineLabel`
+  const queryint = querytemplate.replaceAll("DISEASEA", medicine).replace("INTERACTIONS", disease)
+  try { //if the query is succesfull the following will run
+    const result = await runQuery(queryint)
+    // console.log(result)
+    // console.log(result.results.bindings)
+    // const medication = Object.values(Object.entries(result)[1][1])[0] //turns the "result" Object into an Array
+    return result
   } catch (error) {
       alert(error) // if the query can not be succesfully finished it gives an error in the browser.
     }

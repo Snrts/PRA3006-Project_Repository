@@ -4,10 +4,12 @@ function dataVisualization(data, matrix) {
 
 */
     
-    const names = []
+    const names = data.map(x => x.medicationName)
     const colors = []
     const interactions = matrix
-    
+    const groups = d3.groups(data, d => d.diseaseName) 
+     
+  
     const opacityDefault = 0.8
     const margin = { left: 90, top: 90, right: 90, bottom: 90 },
      width = 1000 - margin.left - margin.right // more flexibility: Math.min(window.innerWidth, 1000),
@@ -15,18 +17,16 @@ function dataVisualization(data, matrix) {
      innerRadius = Math.min(width, height) * .39,
      outerRadius = innerRadius * 1.1;
     
-    for (var i = 0, l = data.length; i < l; i++)
-    {
-            names.push(data[i].medicationName)
-            const randomColor = Math.floor(Math.random() * 16777215).toString(16)
+  for (var j = 0; j < data.length; j++){
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16)
             colors.push('#' + randomColor)
-    }
+  }
     
  /* __________________________________________Math_____________________________________________________________________________________--
 */
     //Create scale and layout functions
     const color = d3.scaleOrdinal()
-        .domain(d3.range(names.length))
+        .domain(d3.range(groups.length))
         .range(colors);
 /* __________________________________________Elements_____________________________________________________________________________________--
 */
@@ -37,6 +37,8 @@ function dataVisualization(data, matrix) {
     const arc = d3.arc()
         .innerRadius(innerRadius)
         .outerRadius(outerRadius)
+        
+        
         
     const ribbon = d3.ribbon()
         .radius(innerRadius)
@@ -59,14 +61,17 @@ function dataVisualization(data, matrix) {
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")")
-        .datum(chord(interactions));
+    .datum(chord(interactions));
+  
+  
 /* __________________________________________Outer arcs_____________________________________________________________________________________--
 */    
     //Draw outer arcs
     const innerArcs = svg.selectAll("g.group")
         .data(function(arcs) { return arcs.groups; })
         .enter().append("g")
-        .attr("class", "group")
+    .attr("class", "group")
+  
 
     innerArcs.append("path")
         .style("fill", function(d) { return color(d.index); })
@@ -85,10 +90,10 @@ function dataVisualization(data, matrix) {
         })
         .text(function (d, i) { return names[i]; })
 
-        const groups = d3.groups(data, d => d.diseaseName) 
+        // const groups = d3.groups(data, d => d.diseaseName) 
         const chordData = chord(interactions).groups
             
-        console.log(chordData)
+        
           
     for (var i = 0; i < groups.length; i++) {
       const sIndex = data.map(x => x.medicationName).indexOf((groups[i])[1][0].medicationName)
@@ -143,7 +148,8 @@ function dataVisualization(data, matrix) {
               .selectAll("path")
               .data(function(chords) { return chords; })
               .enter().append("path")
-              .style("fill", function(d) { return color(d.source.index); })
+              .style("fill", function (d) { return color(d.source.index); })
+              
               .style("opacity", opacityDefault)
               .attr("d", ribbon)
               
@@ -176,8 +182,8 @@ function dataVisualization(data, matrix) {
                   .style("opacity", opacityDefault);
                 
               })
-          
-          //////////////////////////////////////////////////////Exxxxxxxtra Functions////////////////////////////////////////////////////
+  
+/////////////////////////////////////////////////////Exxxxxxxtra Functions////////////////////////////////////////////////////
           
           
           

@@ -31,7 +31,7 @@ loadDropdown() // initiates function above
         var diseasesSelected = $("select option:selected") // assigns all the selected options to the variable selection
         var allMeds = []
         $('#diseaseList').empty() // clears the list element before running the rest of the function (in case the function is ran multiple times)
-        $('#div').empty()
+        $('#div').empty()//clears the div before running the rest of the function
         for (var i = 0, l = diseasesSelected.length; i < l; i++) { // loops through all elements of the selection list
             const disease = document.createElement('li') //creates a list item for each of the diseases selected by the user
                     disease.classList.add("w-full")
@@ -39,7 +39,7 @@ loadDropdown() // initiates function above
             $('#diseaseList').prepend(disease) // adds the list element to the list
             const meds = await fetchMeds(diseasesSelected[i])// passes on the selected diseases and initiates the query to fetch their medicines
             allMeds.push(meds)
-        } 
+        }
     fetchInteractions(allMeds)
     })
 //_________________________________________________________________________________________________________________________//    
@@ -47,20 +47,16 @@ $("#submit").on("click",
 function(){
     $("#chart").empty()
     const loader = document.createElement("div")
-    loader.classList.add("border-t-blue-600")
-    loader.classList.add("rounded-full")
-    loader.classList.add("h-24","w-24","m-auto")
-    loader.classList.add("border-t-8")
-    loader.classList.add("border-8")
-    loader.classList.add("animate-spin")
+            loader.classList.add("border-t-blue-600","rounded-full", "h-24","w-24","m-auto","border-t-8", "border-8", "animate-spin")
     const text = document.createElement("div")
-    text.classList.add("mx-auto", "w-fit",  "mt-2")
-    text.innerHTML = "loading...."
+            text.classList.add("mx-auto", "w-fit",  "mt-2")
+            text.innerHTML = "loading...."
     
     $("#chart").append(loader)
     $("#chart").append(text)
 })
 //_______________________________________________________________________________________________________________//
+
 async function fetchMeds(selection) {
     
     const listElement = document.createElement('ul'); //creates an element "unordered list"
