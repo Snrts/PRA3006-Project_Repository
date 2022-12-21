@@ -51,4 +51,5 @@ The Tool aims to show how different webservices can be combined to provide an ac
 <li><a href="AUTHORS.md">AUTHORS.md</a></li>
 <li><a href="LICENCE">LICENSE</a></li>
 </ul>
+<br>
 The pdf to the presentation about this project can be found <a href="./static/presentation.pdf">here</a>
