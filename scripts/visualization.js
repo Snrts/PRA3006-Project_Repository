@@ -5,7 +5,7 @@ function dataVisualization(data, matrix) {
   const names = data.map(x => x.medicationName) //create an array containing the names
   const colors = []
   const interactionMatrix = matrix
-     
+  // defining some universal values    
   const opacityDefault = 0.8
   const margin = { left: 150, top: 150, right: 150, bottom: 150 },
     width = 1000,
@@ -56,18 +56,16 @@ function dataVisualization(data, matrix) {
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + (width / 2 + margin.left) + "," + (height / 2 + margin.top) + ")")
-    .datum(chord(interactionMatrix));
+    .datum(chord(interactionMatrix));//binds the data in the matrix to the chords
   /* __________________________________________Draw inner arcs_____________________________________________________________________________________--
   */
   //visualization idea taken from: https://stackoverflow.com/questions/43259039/how-to-add-labels-into-the-arc-of-a-chord-diagram-in-d3-js
-    
-  //Make a group for every "groups" dataset
-  const innerArcs = svg.selectAll("g.group") //select all elements with the class group
-    .data(function (chords) { return chords.groups; })
-    .enter().append("g")
-    // .attr("class", "inner")
+  const innerArcs = svg.selectAll("g") // selects all the chords that are in the svg
+    .data(function (chords) { return chords.groups; }) //returns the source and target of the chords
+    .enter()
+    .append("g") // binds the chord to a innerarc 
 
-  //Visualize arcs using "path"
+  // Visualize arcs using "path"
   innerArcs.append("path")
     .style("fill", function (d) { return color(d.index); })
     .attr("d", arc);// attribute of the svg element path
@@ -94,7 +92,6 @@ function dataVisualization(data, matrix) {
 
   //make a list of disease names and medication groups
   const groups = d3.groups(data, d => d.diseaseName) //Grouping together the medications that treat the same disease
-  console.log(groups)
   const chordData = chord(interactionMatrix).groups          
   for (var i = 0; i < groups.length; i++) {
   /*every start and end index represent the indexes of first and last medication for every disease arc*/
@@ -135,25 +132,13 @@ function dataVisualization(data, matrix) {
     //Added text labels
     svg.append("text")
       .attr("class", "superGroupText")
-      
-      .append("textPath")
+      .attr("x", 6)
+    .attr("dy", 15)
+       .append("textPath")
       .attr("xlink:href", "#hiddenArc" + i)
       .attr("text-anchor", "start")
-      // .attr("text-anchor", function)
-      .attr("startOffset", "50%")
       .text(groups[i][0])
       .attr("class", "text-2xl font-bold")
-      // .style("overflow", "auto")
-      // .attr("overflow", "auto")
-      // .style("transform", "rotate(20deg)")
-      
-      .attr("transform", function () {
-        angle = (chordData[sIndex].startAngle + chordData[sIndex].endAngle) / 2
-        return "rotate(" + (angle * (180 / Math.PI) - 90) + ")"
-          + "translate(" + (outerRadius + 80) + ")"
-          + (angle > Math.PI ? "rotate(180)" : "");
-      })
-      .attr("text-anchor", function () { return angle > Math.PI ? "end" : null; }) 
   };
               
   /* __________________________________________Draw inner chords_____________________________________________________________________________________--
@@ -183,8 +168,7 @@ function dataVisualization(data, matrix) {
         .style("background-color", colors[d.source.index])
         .style("border-radius", "10px")
         //removed the styles as they were not really needed
-        //added a nice transition that would "fade in" the text
-                  
+        //added a nice transition that would "fade in" the text  
         .transition()
         .duration(400)
         .style("font-size", "20px")
@@ -212,7 +196,5 @@ function dataVisualization(data, matrix) {
         .style("opacity", opacityDefault);
                 
     });
-          
-  //////////////////////////////////////////////////////Exxxxxxxtra Functions////////////////////////////////////////////////////
           
 }
