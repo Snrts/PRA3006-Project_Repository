@@ -29,7 +29,6 @@ The Tool aims to show how different webservices can be combined to provide an ac
 </ul>
 
 ## Files included in this repository 
-<ul>
 <li>pages
         <ul>
         <li><a href="./pages/homepage.html")>homepage.html</a></li>
@@ -39,6 +38,7 @@ The Tool aims to show how different webservices can be combined to provide an ac
         <ul>
         <li><a href="./scripts/dropdown.js")>dropdown.js</a></li>
         <li><a href="./scripts/interactions.js")>interactions.js</a></li>
+        <li><a href="./scripts/medications.js")>medications.js</a></li>
         <li><a href="./scripts/query.js")>query.js</a></li>
         <li><a href="./scripts/visualization.js")>visualization.js</a></li>
         </ul></li>
@@ -51,3 +51,4 @@ The Tool aims to show how different webservices can be combined to provide an ac
 <li><a href="AUTHORS.md">AUTHORS.md</a></li>
 <li><a href="LICENCE">LICENSE</a></li>
 </ul>
+The pdf to the presentation about this project can be found <a href="./static/presentation.pdf">here</a>
