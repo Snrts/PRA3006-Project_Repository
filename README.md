@@ -3,7 +3,14 @@
 Sanne Aarts - @Snrts  <br>
 Aleksandrs Handramaj - @ahandramaj <br>
 Veronique Hehl - @stuurtjevero <br>
-
+## Instructions
+All the libraries used are imported using a CDN (Content Delivery Network) and thus has no further dependencies, but do require a network connection in order for this project to function well.  
+<br>
+Since not all diseases have medications which interact, not all combinations result in a (nice looking) chord diagram. For demonstration purposes, we found that the following combinations, for example, do.
+<ul>
+         <li>post-traumatic stress disorder - panic disorder - anxiety disorder</li>
+         <li>post-traumatic stress disorder - obsessive-compulsive disorder - attention deficit hyperactivity disorder</li>
+         <li>schizophrenia - panic disorder - anxiety disorder         </li></ul>
 ## The Project
 ### Aim
 This Repository contains the code for the psychiatric medication checker that was built during the PRA3006: Programming in the Life Sciences course of the academic year 2022-2023. 
